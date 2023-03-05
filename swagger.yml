@@ -1,0 +1,11 @@
+summary: "Put your summery here."
+description: "Put your description here."
+consumes:
+- "application/json"
+produces:
+- "application/json"
+security:
+- APIKeyHeader: ['x-access-token']
+responses:
+  200:
+    description: "Success"
