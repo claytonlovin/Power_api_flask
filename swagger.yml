@@ -1,5 +1,5 @@
-summary: "Put your summery here."
-description: "Put your description here."
+summary: "PowerHUB" API
+description: "Recriando meu primeiro projeto completo do python"
 consumes:
 - "application/json"
 produces:
