@@ -4,16 +4,19 @@ from flasgger import Swagger, swag_from
 
 from config.configdb import *
 from router.router import *
+from router.home import *
 
-## config swagger
+## config swaggers
 SWAGGER_TEMPLATE = {
     "securityDefinitions": {
-        "APIKeyHeader": {
+        "Bearer": {
             "type": "apiKey",
             "name": "x-access-token",
-            "in": "header"
+            "in": "header",
+            "description": "Insira o token JWT no formato 'Bearer <token>'"
         }
     },
+    #"security": [{"Bearer": []}],
     "info": {
         "title": "PowerHUB API",
         "description": "Versão da api do powerhub com autenticação JWT",

@@ -99,7 +99,7 @@ def login():
             if password_criptografada == user.password:
                 # Constrói o dicionário com as informações do usuário
                 user_info = {
-                    'id_user': user.id,
+                    'id_user': user.user_id,
                     'nome_user': user.name,
                     'email_user': user.email,
                     'organizacao': user.organization_id
@@ -203,22 +203,22 @@ def login():
                 }
             }
         },
-        '400': {
-            'description': 'Senha incorreta ou usuário não encontrado',
-            'schema': {
-                'type': 'object',
-                'properties': {
-                    'success': {
-                        'type': 'boolean',
-                        'description': 'Indica se a autenticação foi bem sucedida'
-                    },
-                    'message': {
-                        'type': 'string',
-                        'description': 'Mensagem de erro'
-                    }
+        400: {
+        'description': 'Senha incorreta ou usuário não encontrado',
+        'schema': {
+            'type': 'object',
+            'properties': {
+                'success': {
+                    'type': 'boolean',
+                    'description': 'Indica se a autenticação foi bem sucedida'
+                },
+                'message': {
+                    'type': 'string',
+                    'description': 'Mensagem de erro'
                 }
             }
         }
+    }
     }
 })
 
@@ -269,25 +269,24 @@ def register():
         'param21': 0, 'param22': 0, 'param23': 0, 'param24': 0
         }
 
-        try:
-            # ...
-            with db.engine.connect() as conn:
-                conn.execute(SQL, params)
-                conn.commit()
-            print('Dados criados com sucesso!')
-        except Exception as e:
-            session.rollback()
-            print('Erro ao criar os dados:', e)
-            return jsonify({'error': 'Erro ao criar os dados'}), 500
+        
+        with db.engine.connect() as conn:
+            conn.execute(SQL, params)
+            conn.commit()
+        print('Dados criados com sucesso!')
+
         
     except IntegrityError as e:
         db.session.rollback()
         error_info = str(e.orig)
         if 'UNIQUE' in error_info and 'email' in error_info:
             return jsonify({'error': 'Alguém está utilizando esse mesmo login ou senha'}), 400
-        if 'UNIQUE' in error_info and 'cnpj' in error_info:
+        elif 'UNIQUE' in error_info and 'cnpj' in error_info:
             return jsonify({'error': 'CNPJ Já cadastrado!'}), 400
-        return jsonify({'error': error_info}), 400
+        elif 'UNIQUE' in error_info and 'phone_number' in error_info:
+            return jsonify({'error': 'Número de telefone já cadastrado!'}), 400
+        else:
+            return jsonify({'error': 'Erro ao inserir no banco de dados'}, {'error': error_info}), 400
 
     response = ({'success': True, 'message': 'Organização criada com sucesso'}, {'user_info': user_info})
     return jsonify(response), 201

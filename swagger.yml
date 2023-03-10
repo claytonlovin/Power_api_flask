@@ -1,5 +1,5 @@
 summary: "PowerHUB" API
-description: "Recriando meu primeiro projeto completo do python"
+description: "Recriando meu primeiro projeto completo do"
 consumes:
 - "application/json"
 produces:
