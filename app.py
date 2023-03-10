@@ -25,10 +25,3 @@ swagger = Swagger(app, template=SWAGGER_TEMPLATE)
 
 if __name__ == '__main__':
     app.run(debug=True)
-""", "template" : {
-    "swagger": "2.0",
-    "info": {
-        "title": "Minha API",
-        "description": "Descrição da minha API",
-        "version": "1.0.0"
-    }}  """
